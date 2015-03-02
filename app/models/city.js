@@ -63,7 +63,7 @@ var City = Ember.Object.extend({
 
       // If the icon name includes cloudy OR there is a cloudCover above 0.2, make it cloudy.
       // The 0.2 is completely arbitary.
-      if(conditionsNow.icon.indexOf('cloudy') != -1 || conditionsNow.cloudCover > 0.2) {
+      if(conditionsNow.icon.indexOf('cloudy') !== -1 || conditionsNow.cloudCover > 0.2) {
         classNames += 'is-cloudy ';
       }
     }
@@ -74,19 +74,19 @@ var City = Ember.Object.extend({
     return this.get('weatherData').hourly.data[0].summary;
   }.property('weatherData'),
 
-  updateSelectedCityToday: function() {
-    var localDate = this.get('localDate'),
-        diff = Math.round((localDate.getTime() - new Date().getTime())/(24*3600*1000)),
-        relativeDate   = 'Today';
-    if(diff < 0) {
-      relativeDate = 'Yesterday';
-    } else if(diff > 0) {
-      relativeDate = 'Tomorrow';
-    }
+  // updateSelectedCityToday: function() {
+  //   var localDate = this.get('localDate'),
+  //       diff = Math.round((localDate.getTime() - new Date().getTime())/(24*3600*1000)),
+  //       relativeDate   = 'Today';
+  //   if(diff < 0) {
+  //     relativeDate = 'Yesterday';
+  //   } else if(diff > 0) {
+  //     relativeDate = 'Tomorrow';
+  //   }
 
-    var weatherData = this.get('weatherData');
+  //   var weatherData = this.get('weatherData');
 
-  },
+  // },
   relativeDate: function() {
     var localDate = this.get('localDate'),
         diff = Math.round((localDate.getTime() - new Date().getTime())/(24*3600*1000)),
@@ -114,7 +114,7 @@ var City = Ember.Object.extend({
     for (var i = 0; i < Math.min(data.length, 24); ++i) {
       var d = data[i];
       newData.push({
-        first: (i==0),
+        first: (i===0),
         icon: 'images/' + d.icon + '.png',
         temperature: d.temperature,
         time: d.time
@@ -182,7 +182,7 @@ var City = Ember.Object.extend({
   formatPrecipitation: function() {
     var precipitation = this.get('hourly').precipIntensity;
     // console.log(this.get('hourly').precipIntensity);
-    if(precipitation == 0) {
+    if(precipitation === 0) {
       return '--';
     }
 
