@@ -2,6 +2,7 @@
   <ul>
     {{#each}}
       <li {{bind-attr class=conditionClassname}}>
+      {{!-- {{log conditionClassname}} --}}
         {{#link-to 'city' id}}
         <ul>
           <li class="city-info">

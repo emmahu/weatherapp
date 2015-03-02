@@ -38,6 +38,14 @@ var CityRoute = Ember.Route.extend({
 
   setupController: function(controller, model) {
     $('body').removeClass().addClass('show-selected-city');
+    // console.log(model.get('conditionClassname'));
+    // console.log(City.conditionClassname);
+    // updateSelectedCityBackground: function(city) {
+    $('body').removeClass('is-cloudy').removeClass('is-night').removeClass('is-day').addClass(model.get('conditionClassname'));
+    $('nav').removeClass('is-cloudy').removeClass('is-night').removeClass('is-day').addClass(model.get('conditionClassname'));
+
+    // $('nav').removeClass('is-cloudy').removeClass('is-night').removeClass('is-day').addClass(this.conditionClassname(city.weatherData));
+  // },
     controller.set('model', model);
               // .set('isNotEditing', true)
               // .set('isNotNew',     true);
