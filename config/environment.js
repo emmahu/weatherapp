@@ -34,7 +34,7 @@ module.exports = function(environment) {
       selectedCityId: '',
 
       // These are backed by localStorage.
-      // If true, we will render using US (non SI) units
+      // If true, we will render using US (non SI) units(F)
       useUSUnits: false
     }
   };

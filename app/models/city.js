@@ -14,6 +14,7 @@
   // weatherData: DS.attr(),
   // weatherData: DS.attr('object')
 import Ember from 'ember';
+import ENV from "weather/config/environment";
 
 var City = Ember.Object.extend({
   id: 'sanjose',
@@ -121,7 +122,187 @@ var City = Ember.Object.extend({
     }
     // console.log(data.length, newData.length);
     return newData;
-  }.property('weatherData')
+  }.property('weatherData'),
+
+  dailyData: function() {
+    var data = this.get('weatherData').daily.data;
+    var newData = [];
+    for (var i = 0; i < Math.min(data.length, 24); ++i) {
+      var d = data[i];
+      newData.push({
+        icon: 'images/' + d.icon + '.png',
+        temperatureMax: d.temperatureMax,
+        temperatureMin: d.temperatureMin,
+        time: d.time
+      });
+    }
+    // console.log(data.length, newData.length);
+    // console.log(ENV.APP.useUSUnits);
+    return newData;
+  }.property('weatherData'),
+
+  precipType: function(){
+    return this.get('hourly').precipType === 'snow' ? 'Chance of Snow:' : 'Chance of Rain:';
+  }.property('hourly'),
+
+
+
+  formatWind: function() {
+
+    // If US units, then convert from km to miles.
+    var conditions = this.get('hourly'),
+        useUSUnits = ENV.APP.useUSUnits,
+        speed    = (useUSUnits ? conditions.windSpeed * 0.621371 : conditions.windSpeed).toFixed(1);
+    // console.log(useUSUnits);
+    // console.log(conditions.windBearing);
+    // console.log(new Date(conditions.windBearing), true);
+    // Also, add the bearing.
+    return speed + (useUSUnits ? ' mph' : ' kph') + ' ' + this.get('formatBearing');
+    // return speed + (useUSUnits ? ' mph' : ' kph') + ' ' + this.formatBearing(new Date(conditions.windBearing), true);
+  }.property('hourly'),
+
+  formatBearing: function() {
+    // From: http://stackoverflow.com/questions/3209899/determine-compass-direction-from-one-lat-lon-to-the-other
+    var bearings = ["NE", "E", "SE", "S", "SW", "W", "NW", "N"],
+        conditions = this.get('hourly'),
+        brng = conditions.windBearing,
+        // brng ＝ this.get('hourly').windBearing,
+        index    = brng - 22.5;
+
+    // console.log(this.get('hourly').windBearing);
+
+    if (index < 0) {
+      index += 360;
+    }
+    index = parseInt(index / 45);
+
+    return(bearings[index]);
+  }.property('hourly'),
+
+  formatPrecipitation: function() {
+    var precipitation = this.get('hourly').precipIntensity;
+    // console.log(this.get('hourly').precipIntensity);
+    if(precipitation == 0) {
+      return '--';
+    }
+
+    // If using US units, convert from mm to inches.
+    var useUSUnits = ENV.APP.useUSUnits,
+        amount      = ((useUSUnits) ? (precipitation * 0.0393701).toFixed(2) : precipitation);
+
+    return amount + ((useUSUnits) ? ' in' : ' mm');
+  }.property('hourly'),
+
+  formatPressureFromHPA: function() {
+    var pressure = this.get('hourly').pressure;
+    // If using US units, convert to inches.
+    if(ENV.APP.useUSUnits) {
+      return ((pressure*0.000295299830714*100).toFixed(2)) + " in";
+    }
+
+    return (pressure).toFixed(2) + ' hPa';
+  }.property('hourly'),
+
+  formatVisibilty: function() {
+    var visibility = this.get('hourly').visibility;
+
+    // If using US units, convert to miles.
+    var useUSUnits = this.useUSUnits,
+        distance    = (useUSUnits ? visibility * 0.621371 : visibility).toFixed(1);
+
+    return distance + ((useUSUnits) ? ' mi' : ' km');
+  }.property('hourly')
+
+  // formatTime: function() {
+  //   var date = this.get('localDate'),
+  //       showMinutes = true,
+  //       // var date = value,
+  //       // showMinutes = options.hash['showMinutes'],
+  //       hours    = date.getHours(),
+  //       meridian = 'AM';
+
+  //   if(hours >= 12) {
+  //     if(hours > 12) {
+  //       hours -= 12;
+  //     }
+  //     meridian = 'PM';
+  //   }
+
+  //   if (hours == 0) {
+  //     hours = 12;
+  //   }
+
+  //   if(showMinutes) {
+  //     var minutes = date.getMinutes();
+  //     if(minutes < 10) {
+  //       minutes = '0'+minutes;
+  //     }
+
+  //     return hours + ':' + minutes + ' ' + meridian;
+  //   }
+  //   return hours + ' ' + meridian;
+  // }.property('localDate'),
+
+  // todayDetailsData: function() {
+  //   var weatherData       = this.weatherData,
+  //       currentConditions = weatherData.hourly.data[0];
+  //   [
+  //         {
+  //           label:'Sunrise:',
+  //           value: this.formatTime(this.)
+  //           // value: this.formatTime(this.getLocalDate(weatherData.daily.data[0].sunriseTime, weatherData.offset), true)
+  //         },
+  //         {
+  //           label:'Sunset:',
+  //           value: this.formatTime(this.getLocalDate(weatherData.daily.data[0].sunsetTime, weatherData.offset), true)
+  //         },
+  //         {
+  //           label: '',
+  //           value: '',
+  //         },
+  //         {
+  //           label: currentConditions.precipType === 'snow' ? 'Chance of Snow:' : 'Chance of Rain:',
+  //           value: this.formatPercentage(currentConditions.precipProbability)
+  //         },
+  //         {
+  //           label: 'Humidity:',
+  //           value: this.formatPercentage(currentConditions.humidity)
+  //         },
+  //         {
+  //           label: '',
+  //           value: '',
+  //         },
+  //         {
+  //           label: 'Wind:',
+  //           value: this.formatWind(currentConditions)
+  //         },
+  //         {
+  //           label: 'Feels like:',
+  //           value: this.formatTemperature(currentConditions.apparentTemperature),
+  //         },
+  //         {
+  //           label: '',
+  //           value: '',
+  //         },
+  //         {
+  //           label: 'Precipitation:',
+  //           value: this.formatPrecipitation(currentConditions.precipIntensity)
+  //         },
+  //         {
+  //           label: 'Pressure:',
+  //           value: this.formatPressureFromHPA(currentConditions.pressure)
+  //         },
+  //         {
+  //           label: '',
+  //           value: '',
+  //         },
+  //         {
+  //           label: 'Visibility:',
+  //           value: this.formatVisibilty(currentConditions.visibility),
+  //         }
+  //       ];
+  // }
+
 
   // Get the data for a individual city
   // isLast denotes that it is the last in the list

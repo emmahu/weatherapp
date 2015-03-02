@@ -25,12 +25,12 @@
           <li>
             <ul>
               <li>
-                  {{!-- {{log forecast.first}} --}}
-                  {{#if forecast.first}}
-                    Now
-                  {{else}}
-                    {{format-time (local-date forecast.time offset=weatherData.offset) showMinutes=false}}
-                  {{/if}}
+                {{!-- {{log forecast.first}} --}}
+                {{#if forecast.first}}
+                  Now
+                {{else}}
+                  {{format-time (local-date forecast.time offset=weatherData.offset) showMinutes=false}}
+                {{/if}}
               </li>
               <li>
                 <img {{bind-attr src=forecast.icon}}/>
@@ -46,12 +46,159 @@
   </section>
   <section id="forecast">
     <ul class="forecast-list">
-
+      {{#each forecast in dailyData}}
+        <li>
+          <ul>
+            <li>
+              {{!-- this.weekDayForDate(dailyForecastDate) --}}
+              {{week-day (local-date forecast.time offset=weatherData.offset)}}
+            </li>
+            <li>
+              <img {{bind-attr src=forecast.icon}}/>
+            </li>
+            <li>
+              {{format-temperature forecast.temperatureMax}}
+            </li>
+            <li>
+              {{format-temperature forecast.temperatureMin}}
+            </li>
+          </ul>
+        </li>
+      {{/each}}
     </ul>
   </section>
   <section id="today-details">
-    <p class="today-summary"></p>
+    <p class="today-summary">
+      {{weatherData.daily.summary}}
+    </p>
     <ul class="today-details-list">
+      <li>
+        <ul>
+          <li>
+            Sunrise:
+          </li>
+          <li>
+            {{format-time (local-date daily.sunriseTime offset=weatherData.offset) showMinutes=true}}
+          </li>
+        </ul>
+      </li>
+      <li>
+        <ul>
+          <li>
+            Sunset:
+          </li>
+          <li>
+            {{format-time (local-date daily.sunsetTime offset=weatherData.offset) showMinutes=true}}
+          </li>
+        </ul>
+      </li>
+      <li>
+        <ul>
+          <li>
+          </li>
+          <li>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <ul>
+          <li>
+            {{precipType}}
+          </li>
+          <li>
+            {{format-percentage hourly.precipProbability}}
+          </li>
+        </ul>
+      </li>
+      <li>
+        <ul>
+          <li>
+            Humidity:
+          </li>
+          <li>
+            {{format-percentage hourly.humidity}}
+          </li>
+        </ul>
+      </li>
+      <li>
+        <ul>
+          <li>
+          </li>
+          <li>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <ul>
+          <li>
+            Wind:
+          </li>
+          <li>
+            {{formatWind}}
+            {{!-- this.formatWind(currentConditions) --}}
+          </li>
+        </ul>
+      </li>
+      <li>
+        <ul>
+          <li>
+            Feels like:
+          </li>
+          <li>
+            {{format-temperature hourly.apparentTemperature}}
+          </li>
+        </ul>
+      </li>
+      <li>
+        <ul>
+          <li>
+          </li>
+          <li>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <ul>
+          <li>
+            Precipitation:
+          </li>
+          <li>
+            {{formatPrecipitation}}
+          {{!-- this.formatPrecipitation(currentConditions.precipIntensity) --}}
+          </li>
+        </ul>
+      </li>
+      <li>
+        <ul>
+          <li>
+            Pressure:
+          </li>
+          <li>
+            {{formatPressureFromHPA}}
+          {{!-- this.formatPressureFromHPA(currentConditions.pressure) --}}
+          </li>
+        </ul>
+      </li>
+      <li>
+        <ul>
+          <li>
+          </li>
+          <li>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <ul>
+          <li>
+            Visibility:
+          </li>
+          <li>
+            {{formatVisibilty}}
+            {{!-- this.formatVisibilty(currentConditions.visibility) --}}
+          </li>
+        </ul>
+      </li>
+
     </ul>
   </section>
 </div>
