@@ -35,7 +35,7 @@ module.exports = function(environment) {
 
       // These are backed by localStorage.
       // If true, we will render using US (non SI) units
-      useUSUnits: true
+      useUSUnits: false
     }
   };
 

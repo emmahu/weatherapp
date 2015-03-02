@@ -23,7 +23,7 @@ var City = Ember.Object.extend({
   lastUpdated: -1,
   weatherData: null,
 
-  getLocalDate: function() {
+  localDate: function() {
     var time = this.get('weatherData').currently.time,
         timezoneOffset = this.get('weatherData').offset,
         timeOffsetSinceLastRefresh = new Date().getTime() - this.get('lastUpdated');
@@ -34,34 +34,6 @@ var City = Ember.Object.extend({
     utc.setHours(utc.getHours() + timezoneOffset);
     return utc;
   }.property('weatherData','lastUpdated'),
-
-  formatTime: function() {
-    var date = this.get('getLocalDate'),
-        showMinutes = true,
-        hours    = date.getHours(),
-        meridian = 'AM';
-
-    if(hours >= 12) {
-      if(hours > 12) {
-        hours -= 12;
-      }
-      meridian = 'PM';
-    }
-
-    if (hours == 0) {
-      hours = 12;
-    }
-
-    if(showMinutes) {
-      var minutes = date.getMinutes();
-      if(minutes < 10) {
-        minutes = '0'+minutes;
-      }
-
-      return hours + ':' + minutes + ' ' + meridian;
-    }
-    return hours + ' ' + meridian;
-  }.property('getLocalDate'),
 
 
 
@@ -102,7 +74,7 @@ var City = Ember.Object.extend({
   }.property('weatherData'),
 
   updateSelectedCityToday: function() {
-    var localDate = this.get('getLocalDate'),
+    var localDate = this.get('localDate'),
         diff = Math.round((localDate.getTime() - new Date().getTime())/(24*3600*1000)),
         relativeDate   = 'Today';
     if(diff < 0) {
@@ -115,7 +87,7 @@ var City = Ember.Object.extend({
 
   },
   relativeDate: function() {
-    var localDate = this.get('getLocalDate'),
+    var localDate = this.get('localDate'),
         diff = Math.round((localDate.getTime() - new Date().getTime())/(24*3600*1000)),
         relativeDate   = 'Today';
     if(diff < 0) {
@@ -124,21 +96,32 @@ var City = Ember.Object.extend({
       relativeDate = 'Tomorrow';
     }
     return relativeDate;
-  }.property('getLocalDate'),
+  }.property('localDate'),
 
-  weekDayForDate: function() {
-    var date = this.get('getLocalDate');
-    return ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"][date.getDay()];
-  }.property('getLocalDate'),
+  // weekDayForDate: function() {
+  //   var date = this.get('localDate');
+  //   return ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"][date.getDay()];
+  // }.property('localDate'),
 
-  hourlyForecastForHour: function() {
-    return this.get('weatherData').hourly.data;
+  hourlyListWidth: function() {
+    return 'width: ' + (Math.min(this.get('weatherData').hourly.data.length, 24) * 64) + 'px;';
   }.property('weatherData'),
 
-  hoursString: function() {
-    var hourlyForecastDate    = this.getLocalDate(hourlyForecastForHour.time, city.weatherData.offset);
-
-  }
+  hourlyData: function() {
+    var data = this.get('weatherData').hourly.data;
+    var newData = [];
+    for (var i = 0; i < Math.min(data.length, 24); ++i) {
+      var d = data[i];
+      newData.push({
+        first: (i==0),
+        icon: 'images/' + d.icon + '.png',
+        temperature: d.temperature,
+        time: d.time
+      });
+    }
+    // console.log(data.length, newData.length);
+    return newData;
+  }.property('weatherData')
 
   // Get the data for a individual city
   // isLast denotes that it is the last in the list

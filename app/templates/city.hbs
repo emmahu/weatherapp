@@ -7,24 +7,47 @@
   <section id="today">
     <ul class="today-overview">
       <li>
-        {{weekDayForDate}}
+        {{week-day localDate}}
       </li>
       <li>
         {{relativeDate}}
       </li>
       <li>
-      {{format-temperature daily.temperatureMax}}
+        {{format-temperature daily.temperatureMax}}
       </li>
       <li>
-      {{format-temperature daily.temperatureMin}}
+        {{format-temperature daily.temperatureMin}}
       </li>
     </ul>
     <div class="today-hourly-list-container">
-      <ul class="today-hourly-list"></ul>
+      <ul class="today-hourly-list" {{bind-attr style=hourlyListWidth}}>
+        {{#each forecast in hourlyData}}
+          <li>
+            <ul>
+              <li>
+                  {{!-- {{log forecast.first}} --}}
+                  {{#if forecast.first}}
+                    Now
+                  {{else}}
+                    {{format-time (local-date forecast.time offset=weatherData.offset) showMinutes=false}}
+                  {{/if}}
+              </li>
+              <li>
+                <img {{bind-attr src=forecast.icon}}/>
+              </li>
+              <li>
+                {{format-temperature forecast.temperature}}
+              </li>
+            </ul>
+          </li>
+        {{/each}}
+      </ul>
     </div>
   </section>
   <section id="forecast">
-    <ul class="forecast-list"></ul>
+    <ul class="forecast-list">
+
+    </ul>
   </section>
   <section id="today-details">
     <p class="today-summary"></p>
@@ -32,6 +55,6 @@
     </ul>
   </section>
 </div>
-<nav>
+{{!-- <nav>
   <ul></ul>
-</nav>
+</nav> --}}
