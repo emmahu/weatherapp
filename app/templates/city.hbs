@@ -1,0 +1,37 @@
+<div id="selected-city">
+  <section id="city-header">
+    <h2>{{name}}</h2>
+    <h4>{{summary}}</h4>
+    <h1>{{format-temperature hourly.temperature}}</h1>
+  </section>
+  <section id="today">
+    <ul class="today-overview">
+      <li>
+        {{weekDayForDate}}
+      </li>
+      <li>
+        {{relativeDate}}
+      </li>
+      <li>
+      {{format-temperature daily.temperatureMax}}
+      </li>
+      <li>
+      {{format-temperature daily.temperatureMin}}
+      </li>
+    </ul>
+    <div class="today-hourly-list-container">
+      <ul class="today-hourly-list"></ul>
+    </div>
+  </section>
+  <section id="forecast">
+    <ul class="forecast-list"></ul>
+  </section>
+  <section id="today-details">
+    <p class="today-summary"></p>
+    <ul class="today-details-list">
+    </ul>
+  </section>
+</div>
+<nav>
+  <ul></ul>
+</nav>
