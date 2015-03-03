@@ -1,18 +1,3 @@
-// import DS from "ember-data";
-
-// var City = DS.Model.extend({
-
-  // id: DS.attr('string'),
-  // name: DS.attr('string'),
-  // lat: DS.attr('number'),
-  // lng: DS.attr('number'),
-  // lastUpdated: DS.attr('number', {
-  //   defaultValue: function() {
-  //     return -1;
-  //   }
-  // }),
-  // weatherData: DS.attr(),
-  // weatherData: DS.attr('object')
 import Ember from 'ember';
 import ENV from "weather/config/environment";
 
@@ -23,6 +8,7 @@ var City = Ember.Object.extend({
   lng: 0,
   lastUpdated: -1,
   weatherData: null,
+
 
   localDate: function() {
     var time = this.get('weatherData').currently.time,
@@ -143,22 +129,6 @@ var City = Ember.Object.extend({
 
   precipType: function(){
     return this.get('hourly').precipType === 'snow' ? 'Chance of Snow:' : 'Chance of Rain:';
-  }.property('hourly'),
-
-
-
-  formatWind: function() {
-
-    // If US units, then convert from km to miles.
-    var conditions = this.get('hourly'),
-        useUSUnits = ENV.APP.useUSUnits,
-        speed    = (useUSUnits ? conditions.windSpeed * 0.621371 : conditions.windSpeed).toFixed(1);
-    // console.log(useUSUnits);
-    // console.log(conditions.windBearing);
-    // console.log(new Date(conditions.windBearing), true);
-    // Also, add the bearing.
-    return speed + (useUSUnits ? ' mph' : ' kph') + ' ' + this.get('formatBearing');
-    // return speed + (useUSUnits ? ' mph' : ' kph') + ' ' + this.formatBearing(new Date(conditions.windBearing), true);
   }.property('hourly'),
 
   formatBearing: function() {

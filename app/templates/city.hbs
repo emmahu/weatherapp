@@ -2,7 +2,7 @@
   <section id="city-header">
     <h2>{{name}}</h2>
     <h4>{{summary}}</h4>
-    <h1>{{format-temperature hourly.temperature}}</h1>
+    <h1>{{format-temperature hourly.temperature unitParam=useUSUnits}}</h1>
   </section>
   <section id="today">
     <ul class="today-overview">
@@ -13,14 +13,15 @@
         {{relativeDate}}
       </li>
       <li>
-        {{format-temperature daily.temperatureMax}}
+        {{format-temperature daily.temperatureMax unitParam=useUSUnits}}
       </li>
       <li>
-        {{format-temperature daily.temperatureMin}}
+        {{format-temperature daily.temperatureMin unitParam=useUSUnits}}
       </li>
     </ul>
     <div class="today-hourly-list-container">
       <ul class="today-hourly-list" {{bind-attr style=hourlyListWidth}}>
+      {{#with useUSUnits as usUnitAlias}}
         {{#each forecast in hourlyData}}
           <li>
             <ul>
@@ -36,35 +37,38 @@
                 <img {{bind-attr src=forecast.icon}}/>
               </li>
               <li>
-                {{format-temperature forecast.temperature}}
+                {{format-temperature forecast.temperature unitParam=usUnitAlias}}
               </li>
             </ul>
           </li>
         {{/each}}
+      {{/with}}
       </ul>
     </div>
   </section>
   <section id="forecast">
     <ul class="forecast-list">
-      {{#each forecast in dailyData}}
-        <li>
-          <ul>
-            <li>
-              {{!-- this.weekDayForDate(dailyForecastDate) --}}
-              {{week-day (local-date forecast.time offset=weatherData.offset)}}
-            </li>
-            <li>
-              <img {{bind-attr src=forecast.icon}}/>
-            </li>
-            <li>
-              {{format-temperature forecast.temperatureMax}}
-            </li>
-            <li>
-              {{format-temperature forecast.temperatureMin}}
-            </li>
-          </ul>
-        </li>
-      {{/each}}
+      {{#with useUSUnits as usUnitAlias}}
+        {{#each forecast in dailyData}}
+          <li>
+            <ul>
+              <li>
+                {{!-- this.weekDayForDate(dailyForecastDate) --}}
+                {{week-day (local-date forecast.time offset=weatherData.offset)}}
+              </li>
+              <li>
+                <img {{bind-attr src=forecast.icon}}/>
+              </li>
+              <li>
+                {{format-temperature forecast.temperatureMax unitParam=usUnitAlias}}
+              </li>
+              <li>
+                {{format-temperature forecast.temperatureMin unitParam=usUnitAlias}}
+              </li>
+            </ul>
+          </li>
+        {{/each}}
+      {{/with}}
     </ul>
   </section>
   <section id="today-details">
@@ -134,7 +138,7 @@
             Wind:
           </li>
           <li>
-            {{formatWind}}
+            {{format-wind hourly unitParam=useUSUnits formatBearing=formatBearing}}
             {{!-- this.formatWind(currentConditions) --}}
           </li>
         </ul>
@@ -145,7 +149,7 @@
             Feels like:
           </li>
           <li>
-            {{format-temperature hourly.apparentTemperature}}
+            {{format-temperature hourly.apparentTemperature unitParam=useUSUnits}}
           </li>
         </ul>
       </li>
@@ -203,6 +207,16 @@
 </div>
 <nav>
   <ul>
-
+    <div class="list-button">
+      <a href="#">☰</a>
+    </div>
+  {{!-- {{log useUSUnits}} --}}
+    <div {{bind-attr class=":celsius-or-fahrenheit useUSUnits:use-fahrenheit:use-celsius"}}>
+      <a {{action 'toggleUnits'}}>
+        <span class="celsius">˚C</span>
+         ⁄
+        <span class="fahrenheit">˚F</span>
+      </a>
+    </div>
   </ul>
 </nav>

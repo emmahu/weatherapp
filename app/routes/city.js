@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import City from 'weather/models/city';
+import config from "weather/appconfig";
 
 var CityRoute = Ember.Route.extend({
 
@@ -13,6 +14,14 @@ var CityRoute = Ember.Route.extend({
   //       });
   //       this.transitionTo('index');
   //     }
+  //   }
+  // },
+  // useUSUnits: Ember.computed.alias('config.useUSUnits'),
+  // actions:{
+  //   toggleUnits: function(){
+  //     var useType = !this.get('useUSUnits');
+  //     this.set('useUSUnits',useType);
+  //     // console.log(config);
   //   }
   // },
 
@@ -46,7 +55,13 @@ var CityRoute = Ember.Route.extend({
 
     // $('nav').removeClass('is-cloudy').removeClass('is-night').removeClass('is-day').addClass(this.conditionClassname(city.weatherData));
   // },
-    controller.set('model', model);
+    controller.set('content', model);
+              // .set('config', config)
+    // controller.set('config',config);
+    // controller.set('useUSUnits',Ember.computed.alias('config.useUSUnits'));
+
+    // controller.set('temperature', '80');
+    // controller.set('config', config);
               // .set('isNotEditing', true)
               // .set('isNotNew',     true);
 

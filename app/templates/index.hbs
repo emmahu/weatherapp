@@ -1,5 +1,8 @@
 <div id="cities-list">
   <ul>
+    {{!-- {{log controller.useUSUnits}} --}}
+    {{#with useUSUnits as usUnitAlias}}
+    {{!-- {{log usUnitAlias}} --}}
     {{#each}}
       <li {{bind-attr class=conditionClassname}}>
         {{#link-to 'city' id}}
@@ -13,22 +16,25 @@
             </div>
           </li>
           <li class="temperature">
-            {{format-temperature hourly.temperature}}
+            {{format-temperature hourly.temperature unitParam=usUnitAlias}}
+            {{!-- {{log usUnitAlias}} --}}
           </li>
         </ul>
        {{/link-to}}
       </li>
     {{/each}}
+    {{/with}}
   </ul>
 </div>
 <nav>
   <ul>
     <a class="attribution" href="http://forecast.io/" target="_blank">Powered by Forecast</a>
-    <div {{bind-attr class=":celsius-or-fahrenheit useType:use-fahrenheit:use-celsius"}}>
+    <div {{bind-attr class=":celsius-or-fahrenheit controller.useUSUnits:use-fahrenheit:use-celsius"}}>
       <a {{action 'toggleUnits'}}>
         <span class="celsius">˚C</span>
         ⁄
-        <span class="fahrenheit">˚F</span>
+        <span class="fahrenheit">˚F {{format-temperature temperature unitParam=controller.useUSUnits}}</span>
+        {{!-- <span> {{format-temperature temperature unitParam=controller.useUSUnits}}</span> --}}
       </a>
     </div>
   </ul>
