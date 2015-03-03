@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import ENV from "weather/config/environment";
 
 var IndexController = Ember.ArrayController.extend({
   // The data is set to refresh every 10 minutes or 600,000 milliseconds.
@@ -12,9 +13,13 @@ var IndexController = Ember.ArrayController.extend({
 
   // These are backed by localStorage.
   // If true, we will render using US (non SI) units
-  // useUSUnits: true
-
-
+  useType: ENV.APP.useUSUnits,
+  actions:{
+    toggleUnits: function(){
+      ENV.APP.useUSUnits = !ENV.APP.useUSUnits;
+      this.set('useType', ENV.APP.useUSUnits);
+    }
+  }
 
 });
 

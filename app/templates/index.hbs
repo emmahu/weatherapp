@@ -2,12 +2,10 @@
   <ul>
     {{#each}}
       <li {{bind-attr class=conditionClassname}}>
-      {{!-- {{log conditionClassname}} --}}
         {{#link-to 'city' id}}
         <ul>
           <li class="city-info">
             <div class="time">
-              {{!-- this.formatTime(this.getLocalDate(city.weatherData.currently.time, city.weatherData.offset, new Date().getTime() - city.lastUpdated), true),  --}}
               {{format-time (local-date weatherData.currently.time offset=weatherData.offset) showMinutes=true}}
             </div>
             <div class="city-name">
@@ -15,8 +13,6 @@
             </div>
           </li>
           <li class="temperature">
-            {{!-- this.formatTemperature(conditionsNow.temperature) --}}
-            {{!-- {{formatTemperature}} --}}
             {{format-temperature hourly.temperature}}
           </li>
         </ul>
@@ -26,5 +22,14 @@
   </ul>
 </div>
 <nav>
-  <ul></ul>
+  <ul>
+    <a class="attribution" href="http://forecast.io/" target="_blank">Powered by Forecast</a>
+    <div {{bind-attr class=":celsius-or-fahrenheit useType:use-fahrenheit:use-celsius"}}>
+      <a {{action 'toggleUnits'}}>
+        <span class="celsius">˚C</span>
+        ⁄
+        <span class="fahrenheit">˚F</span>
+      </a>
+    </div>
+  </ul>
 </nav>

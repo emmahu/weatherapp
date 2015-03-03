@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import City from 'weather/models/city';
-
+import ENV from "weather/config/environment";
 var IndexRoute = Ember.Route.extend({
 
 
@@ -22,6 +22,7 @@ var IndexRoute = Ember.Route.extend({
   //     refreshModel: true
   //   }
   // },
+
   setupController: function(controller, model){
     // alert("good");
     $('body').removeClass().addClass('show-cities-list');
