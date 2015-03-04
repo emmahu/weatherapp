@@ -9,7 +9,7 @@
         <ul>
           <li class="city-info">
             <div class="time">
-              {{format-time (local-date weatherData.currently.time offset=weatherData.offset) showMinutes=true}}
+              {{format-time (local-date weatherData.currently.time offset=weatherData.offset since=sinceLastRefresh) showMinutes=true}}
             </div>
             <div class="city-name">
               {{name}}

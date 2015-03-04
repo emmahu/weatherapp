@@ -9,12 +9,7 @@ var App = Ember.Application.extend({
   modulePrefix: config.modulePrefix,
   podModulePrefix: config.podModulePrefix,
   Resolver: Resolver
-  // useUSUnits: config.useUSUnits
 });
-
-// App.configuration = {
-//   useUSUnits: true
-// };
 
 loadInitializers(App, config.modulePrefix);
 

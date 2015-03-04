@@ -87,8 +87,42 @@ var DataManager = Ember.Object.create({
       }
     }
     return city;
-  }
+  },
 
+  refreshAllCitiesWeather: function() {
+    var self = DataManager;
+    var cities = self.get('LocalStorageModels');
+    for(var i=0, iLen=cities.length; i<iLen; i++) {
+      var city = cities[i];
+      if (self.shouldRefreshCity(city)) {
+        self.fetchDataForCity(city);
+      }
+    }
+  },
+
+  refreshAllCitiesTime: function() {
+    var self = DataManager;
+    var cities = self.get('LocalStorageModels');
+    for(var i=0, iLen=cities.length; i<iLen; i++) {
+      var city = cities[i];
+      // This will trigger recalculation of sinceLastRefresh computed property.
+      city.notifyPropertyChange('lastUpdated');
+    }
+  }
 });
+
+var updateWeatherTimer = function() {
+  DataManager.refreshAllCitiesWeather();
+  Ember.run.later(DataManager, updateWeatherTimer, DataManager.dataRefreshInterval);
+};
+
+updateWeatherTimer();
+
+var updateTimeTimer = function() {
+  DataManager.refreshAllCitiesTime();
+  Ember.run.later(DataManager, updateTimeTimer, DataManager.timeUpdateInterval);
+}
+
+updateTimeTimer();
 
 export default DataManager;

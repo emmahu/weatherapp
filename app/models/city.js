@@ -149,7 +149,9 @@ var City = Ember.Object.extend({
     return(bearings[index]);
   }.property('hourly'),
 
-
+  sinceLastRefresh: function() {
+    return new Date().getTime() - this.get('lastUpdated');
+  }.property('lastUpdated')
 
   // Get the data for a individual city
   // isLast denotes that it is the last in the list
