@@ -13,17 +13,9 @@ var CityController = Ember.ObjectController.extend({
 
   useUSUnits: Ember.computed.alias('dataManager.useUSUnits'),
 
-  // useUSUnits: Ember.computed.alias('config.useUSUnits'),
-
-// //   useUSUnitsDidChange: function() {
-// //     // this.reload();
-// //   }.observes('useUSUnits'),
-
   init: function(){
     this._super();
     this.set('dataManager', DataManager);
-    // this.set('config', config);
-    // controller.set('useUSUnits',Ember.computed.alias('config.useUSUnits'));
   }
 
 });

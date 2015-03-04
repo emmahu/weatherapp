@@ -4,27 +4,6 @@ import DataManager from 'weather/datamanager';
 
 var CityRoute = Ember.Route.extend({
 
-  // actions: {
-  //   delete: function(id) {
-  //     // Make sure that you really want to delete it before doing it.
-  //     var shouldDelete = confirm('Are you sure you want to delete this city?');
-  //     if(shouldDelete) {
-  //       this.store.find('city', id).then(function (city) {
-  //         city.destroyRecord();
-  //       });
-  //       this.transitionTo('index');
-  //     }
-  //   }
-  // },
-  // useUSUnits: Ember.computed.alias('config.useUSUnits'),
-  // actions:{
-  //   toggleUnits: function(){
-  //     var useType = !this.get('useUSUnits');
-  //     this.set('useUSUnits',useType);
-  //     // console.log(config);
-  //   }
-  // },
-
   model: function(params) {
     return DataManager.findCity(params.city_id);
   },

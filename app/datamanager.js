@@ -39,14 +39,48 @@ var DataManager = Ember.Object.create({
       weatherData: null
     })],
 
+  ////////////////////////////////////////////////////////////////////////////////
+  // Local Storage and Data Interaction
+  ////////////////////////////////////////////////////////////////////////////////
+
+  // Load from local storage.
+  loadDataFromLocalStorage: function() {
+    var self = DataManager;
+    var localStorageCities = JSON.parse(localStorage.getItem("cities"));
+    if(localStorageCities) {
+      var cities = [];
+      for(int i = 0; i < localStorageCities.length; i++) {
+        cities.push(City.create(localStorageCities[i]));
+      }
+      self.set('LocalStorageModels', cities);
+    }
+    self.useUSUnits = JSON.parse(localStorage.getItem("useUSUnits"));
+    if(self.useUSUnits === null || self.useUSUnits === undefined) {
+      self.useUSUnits = true;
+    }
+  },
+
+  // Save back to local storage.
+  syncLocalStorage: function() {
+    var self = this,
+        cities = self.LocalStorageModels,
+        savedCities = [];
+    for(int i = 0; i < cities.length; i++) {
+      var city = cities[0];
+      savedCities.push(city.get('serializedProperties'));
+    }
+    localStorage.setItem("cities", JSON.stringify(savedCities));
+    localStorage.setItem("useUSUnits", JSON.stringify(self.useUSUnits));
+  },
+
+  // dataDidChange: function() {
+  //   this.syncLocalStorage();
+  // }
+
   // deleteCity: function(city) {
 
   // }
 
-  // fmt: function(apiKey, lat, lng) {
-  //   // var self = this;
-  //   return apiKey + '/'+ lat + "," + lng + "?units=si";
-  // },
 
   // API interaction
   fetchDataForCity: function(city) {
@@ -77,15 +111,17 @@ var DataManager = Ember.Object.create({
     }
   },
 
+  // Return for a given id, the city
   cityDataForId: function(id) {
     var cities = this.get('LocalStorageModels');
     var city = null;
     for(var i=0, iLen=cities.length; i<iLen; i++) {
-      if(cities[i].get('id') == id) {
+      if(cities[i].get('id') === id) {
         city = cities[i];
         break;
       }
     }
+    // console.log(city);
     return city;
   },
 
@@ -107,9 +143,21 @@ var DataManager = Ember.Object.create({
       var city = cities[i];
       // This will trigger recalculation of sinceLastRefresh computed property.
       city.notifyPropertyChange('lastUpdated');
+      // console.log(city.get('lastUpdated'));
     }
+
   }
+
+
 });
+
+
+var updateTimeTimer = function() {
+  DataManager.refreshAllCitiesTime();
+  Ember.run.later(DataManager, updateTimeTimer, DataManager.timeUpdateInterval);
+};
+
+updateTimeTimer();
 
 var updateWeatherTimer = function() {
   DataManager.refreshAllCitiesWeather();
@@ -118,11 +166,5 @@ var updateWeatherTimer = function() {
 
 updateWeatherTimer();
 
-var updateTimeTimer = function() {
-  DataManager.refreshAllCitiesTime();
-  Ember.run.later(DataManager, updateTimeTimer, DataManager.timeUpdateInterval);
-}
-
-updateTimeTimer();
 
 export default DataManager;

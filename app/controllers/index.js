@@ -1,6 +1,4 @@
 import Ember from 'ember';
-// import config from "weather/config/environment";
-// import config from "weather/appconfig";
 import DataManager from "weather/datamanager";
 
 var IndexController = Ember.ArrayController.extend({

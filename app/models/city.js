@@ -151,41 +151,18 @@ var City = Ember.Object.extend({
 
   sinceLastRefresh: function() {
     return new Date().getTime() - this.get('lastUpdated');
-  }.property('lastUpdated')
+  }.property('lastUpdated'),
 
-  // Get the data for a individual city
-  // isLast denotes that it is the last in the list
-  // getWeatherDataForCityId: function(){
-
-  //   var self = this,
-  //       city = self.get('controller.content');
-
-  //   // If this is called within the refresh interval, then just bail here.
-  //   if (!city || (new Date().getTime() - this.dataRefreshInterval) < city.lastUpdated) return;
-  //   // Always return with SI units. Conversion to imperial/US can be done on the client side.
-  //   // However, doing it with the API is just fine as well.
-  //   $.ajax({
-  //     url: self.config.weatherAPIBaseURL + self.config.weatherAPIKey + '/'+ city.lat +","+city.lng+"?units=si",
-  //     jsonp: 'callback',
-  //     dataType: 'jsonp',
-  //     success: function(data) {
-  //       city.weatherData = data;
-  //       city.lastUpdated = new Date().getTime();
-  //       self.syncLocalStorage();
-
-  //       // The context here is list and if it is the last
-  //       // item in the list, then we render the list at that point.
-  //       // Otherwise, we would render too often.
-  //       if (context === 'list' && isLast) {
-  //         self.renderCitiesList();
-
-  //       // If it is on the details page, then render that single city.
-  //       } else if (context === 'detail') {
-  //         self.renderSelectedCity();
-  //       }
-  //     }
-  //   });
-  // }.property('city')
+  serializedProperties: function() {
+    return {
+      id: this.get('id'),
+      name: this.get('name'),
+      lat: this.get('lat'),
+      lng: this.get('lng'),
+      lastUpdated: this.get('lastUpdated'),
+      weatherData: this.get('weatherData')
+    };
+  }.property()
 
 });
 
