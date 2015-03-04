@@ -149,39 +149,6 @@ var City = Ember.Object.extend({
     return(bearings[index]);
   }.property('hourly'),
 
-  formatPrecipitation: function() {
-    var precipitation = this.get('hourly').precipIntensity;
-    // console.log(this.get('hourly').precipIntensity);
-    if(precipitation === 0) {
-      return '--';
-    }
-
-    // If using US units, convert from mm to inches.
-    var useUSUnits = ENV.APP.useUSUnits,
-        amount      = ((useUSUnits) ? (precipitation * 0.0393701).toFixed(2) : precipitation);
-
-    return amount + ((useUSUnits) ? ' in' : ' mm');
-  }.property('hourly'),
-
-  formatPressureFromHPA: function() {
-    var pressure = this.get('hourly').pressure;
-    // If using US units, convert to inches.
-    if(ENV.APP.useUSUnits) {
-      return ((pressure*0.000295299830714*100).toFixed(2)) + " in";
-    }
-
-    return (pressure).toFixed(2) + ' hPa';
-  }.property('hourly'),
-
-  formatVisibilty: function() {
-    var visibility = this.get('hourly').visibility;
-
-    // If using US units, convert to miles.
-    var useUSUnits = this.useUSUnits,
-        distance    = (useUSUnits ? visibility * 0.621371 : visibility).toFixed(1);
-
-    return distance + ((useUSUnits) ? ' mi' : ' km');
-  }.property('hourly')
 
 
   // Get the data for a individual city

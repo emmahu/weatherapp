@@ -167,7 +167,7 @@
             Precipitation:
           </li>
           <li>
-            {{formatPrecipitation}}
+            {{format-precipitation hourly.precipIntensity unitParam=useUSUnits}}
           {{!-- this.formatPrecipitation(currentConditions.precipIntensity) --}}
           </li>
         </ul>
@@ -178,7 +178,7 @@
             Pressure:
           </li>
           <li>
-            {{formatPressureFromHPA}}
+            {{format-pressurefromhpa hourly.pressure unitParam=useUSUnits}}
           {{!-- this.formatPressureFromHPA(currentConditions.pressure) --}}
           </li>
         </ul>
@@ -197,7 +197,7 @@
             Visibility:
           </li>
           <li>
-            {{formatVisibilty}}
+            {{format-visibility hourly.visibility unitParam=useUSUnits}}
             {{!-- this.formatVisibilty(currentConditions.visibility) --}}
           </li>
         </ul>

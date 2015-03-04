@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 var appconfig = Ember.Object.create({
-   useUSUnits: true,
+   useUSUnits: false,
 });
 
 export default appconfig;

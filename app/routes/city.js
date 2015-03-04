@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import City from 'weather/models/city';
-import config from "weather/appconfig";
+// import config from "weather/appconfig";
 
 var CityRoute = Ember.Route.extend({
 
@@ -40,10 +40,6 @@ var CityRoute = Ember.Route.extend({
 
 
   },
-
-    // city.save();
-    // return this.store.find('city', params.city_id);
-
 
   setupController: function(controller, model) {
     $('body').removeClass().addClass('show-selected-city');
