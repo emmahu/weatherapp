@@ -19,32 +19,40 @@ var DataManager = Ember.Object.create({
   // The id of the selected city self is shown in the details.
   selectedCityId: '',
 
-  // API interaction
+  useUSUnits: true,
+
+  // fmt: function(apiKey, lat, lng) {
+  //   // var self = this;
+  //   return apiKey + '/'+ lat + "," + lng + "?units=si";
+  // },
+
+  // // API interaction
   // fetchDataForCity: function(city) {
   //   var self = this;
   //   return Ember.$.ajax({
-  //     url: self.get('weatherURLFormat').fmt(self.get('weatherAPIKey')), city.get('id'),
+  //     url: self.get('weatherURLFormat').fmt(self.get('weatherAPIKey'), city.get('lat'), city.get('lng')),
   //     jsonp: 'callback',
   //     dataType: 'jsonp',
   //     success: function(weatherData) {
   //       city.set('weatherData', weatherData).set('lastUpdated', new Date().getTime());
   //       self.dataDidChange();
   //     }
+  // },
   //   });
+
+  // shouldRefreshCity: function(city) {
+  //   return (city && (city.get('lastUpdated') === -1) || (new Date().getTime() > city.get('lastUpdated') + this.get('dataRefreshInterval')));
   // },
 
-  shouldRefreshCity: function(city) {
-    return (city && (city.get('lastUpdated') === -1) || (new Date().getTime() > city.get('lastUpdated') + dataRefreshInterval));
-  },
 
-  findCity: function(id) {
-    var city = this.cityDataForId(id);
-    if (this.shouldRefreshCity(city)) {
-      return fetchDataForCity();
-    } else {
-      return city;
-    }
-  }
+  // findCity: function(id) {
+  //   var city = this.cityDataForId(id);
+  //   if (this.shouldRefreshCity(city)) {
+  //     return fetchDataForCity();
+  //   } else {
+  //     return city;
+  //   }
+  // }
 
 });
 
