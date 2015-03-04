@@ -1,0 +1,23 @@
+<header id="cityList">
+  <div id="listTile">
+  Choose a City.
+  </div>
+  {{input id="listInput" type="text" value=typeCity}}
+  <button id="cancel" {{action 'worldclock'}}>Cancel</button>
+</header>
+<div class="listBody">
+   {{#if cityList}}
+     {{#each cityList}}
+     <div class="category">
+      <span>{{firstLetter}}</span>
+     </div>
+      <ul>
+      {{#each dataList}}
+      <li class="subList" {{action 'addCity' id}}><div>{{cityName}}</div></li>
+      {{/each}}
+      </ul>
+      {{/each}}
+   {{else}}
+    <p>{{displayMsg}}</p>
+    {{/if}}
+</div>

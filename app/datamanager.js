@@ -1,4 +1,6 @@
 import Ember from 'ember';
+import City from 'weather/models/city';
+
 var DataManager = Ember.Object.create({
   // Here you can pass flags/options to your application instance
       // when it is created
@@ -21,38 +23,71 @@ var DataManager = Ember.Object.create({
 
   useUSUnits: true,
 
+  LocalStorageModels : [City.create({
+      id: 'sanjose',
+      name: 'San Jose',
+      lat: 37.3382082,
+      lng: -121.88632860000001,
+      lastUpdated: -1,
+      weatherData: null
+    }), City.create({
+      id: 'sydney',
+      name: 'Sydney',
+      lat: -33.8674869,
+      lng: 151.20699020000006,
+      lastUpdated: -1,
+      weatherData: null
+    })],
+
+  // deleteCity: function(city) {
+
+  // }
+
   // fmt: function(apiKey, lat, lng) {
   //   // var self = this;
   //   return apiKey + '/'+ lat + "," + lng + "?units=si";
   // },
 
-  // // API interaction
-  // fetchDataForCity: function(city) {
-  //   var self = this;
-  //   return Ember.$.ajax({
-  //     url: self.get('weatherURLFormat').fmt(self.get('weatherAPIKey'), city.get('lat'), city.get('lng')),
-  //     jsonp: 'callback',
-  //     dataType: 'jsonp',
-  //     success: function(weatherData) {
-  //       city.set('weatherData', weatherData).set('lastUpdated', new Date().getTime());
-  //       self.dataDidChange();
-  //     }
-  // },
-  //   });
+  // API interaction
+  fetchDataForCity: function(city) {
+    var self = this;
+    return Ember.$.ajax({
+      url: self.get('weatherAPIBaseURL') + self.get('weatherAPIKey') + '/' + city.get('lat') + ', ' + city.get('lng') + "?units=si",
+      jsonp: 'callback',
+      dataType: 'jsonp',
+      context: city
+    }).done(function(weatherData) {
+      this.set('weatherData', weatherData).set('lastUpdated', new Date().getTime());
+      // self.dataDidChange();
+    }).then(function(){
+      return this;
+    });
+  },
 
-  // shouldRefreshCity: function(city) {
-  //   return (city && (city.get('lastUpdated') === -1) || (new Date().getTime() > city.get('lastUpdated') + this.get('dataRefreshInterval')));
-  // },
+  shouldRefreshCity: function(city) {
+    return (city && (city.get('lastUpdated') === -1) || (new Date().getTime() > city.get('lastUpdated') + this.get('dataRefreshInterval')));
+  },
 
+  findCity: function(id) {
+    var city = this.cityDataForId(id);
+    if (city && this.shouldRefreshCity(city)) {
+      return this.fetchDataForCity(city);
+    } else {
+      return Ember.$.when(city);
+    }
+  },
 
-  // findCity: function(id) {
-  //   var city = this.cityDataForId(id);
-  //   if (this.shouldRefreshCity(city)) {
-  //     return fetchDataForCity();
-  //   } else {
-  //     return city;
-  //   }
-  // }
+  cityDataForId: function(id) {
+    var cities = this.get('LocalStorageModels');
+    var city = null;
+    for(var i=0, iLen=cities.length; i<iLen; i++) {
+      if(cities[i].get('id') == id) {
+        city = cities[i];
+        break;
+      }
+    }
+    return city;
+  }
 
 });
 

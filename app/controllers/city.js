@@ -7,16 +7,10 @@ var CityController = Ember.ObjectController.extend({
     toggleUnits: function(){
       var useType = !this.get('useUSUnits');
       this.set('useUSUnits',useType);
-    },
-    startEditing: function() {
-      this.set('isEditing', false);
-    },
-    delete: function(city) {
-      this.get('dataManager').deleteCity(city);
     }
   },
 
-  isEditing: false,
+
   useUSUnits: Ember.computed.alias('dataManager.useUSUnits'),
 
   // useUSUnits: Ember.computed.alias('config.useUSUnits'),

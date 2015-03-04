@@ -205,10 +205,10 @@
     </ul>
   </section>
 </div>
-<nav>
+<nav {{bind-attr class=conditionClassname}}>
   <ul>
     <div class="list-button">
-      <a href="#">☰</a>
+      {{#link-to 'index'}}☰{{/link-to}}
     </div>
   {{!-- {{log useUSUnits}} --}}
     <div {{bind-attr class=":celsius-or-fahrenheit useUSUnits:use-fahrenheit:use-celsius"}}>

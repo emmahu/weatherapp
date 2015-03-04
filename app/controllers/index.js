@@ -14,8 +14,20 @@ var IndexController = Ember.ArrayController.extend({
     toggleUnits: function(){
       var useType = !this.get('useUSUnits');
       this.set('useUSUnits',useType);
+    },
+    startEditing: function() {
+      this.set('isEditing', false);
+    },
+    delete: function(city) {
+      this.get('dataManager').deleteCity(city);
+    },
+    addcity: function() {
+      // this.transitionTo('addcity');
+      this.transitionTo('add');
     }
   },
+
+  isEditing: false,
 
   init: function(){
     this._super();
