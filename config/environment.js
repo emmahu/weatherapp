@@ -36,6 +36,10 @@ module.exports = function(environment) {
       // These are backed by localStorage.
       // If true, we will render using US (non SI) units(F)
       // useUSUnits: true
+    },
+
+    contentSecurityPolicy: {
+    'script-src': "'self' 'unsafe-inline' 'unsafe-eval' api.forecast.io coen268.peterbergstrom.com",
     }
   };
 
