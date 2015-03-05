@@ -4,10 +4,6 @@ import DataManager from "weather/datamanager";
 var IndexController = Ember.ArrayController.extend({
 
   useUSUnits: Ember.computed.alias('dataManager.useUSUnits'),
-  // useUSUnits: Ember.computed.alias('config.useUSUnits'),
-  // datamanager: Ember.computed.alias('DataManager'),
-
-
   actions:{
     toggleUnits: function(){
       var useType = !this.get('useUSUnits');

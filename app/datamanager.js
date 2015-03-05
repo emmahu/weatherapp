@@ -55,10 +55,10 @@ var DataManager = Ember.Object.create({
       }
       self.set('LocalStorageModels', cities);
     }
-    // self.useUSUnits = JSON.parse(localStorage.getItem("useUSUnits"));
-    // if(self.useUSUnits === null || self.useUSUnits === undefined) {
-    //   self.useUSUnits = true;
-    // }
+    self.useUSUnits = JSON.parse(localStorage.getItem("useUSUnits"));
+    if(self.useUSUnits === null || self.useUSUnits === undefined) {
+      self.useUSUnits = true;
+    }
   },
 
   // Save back to local storage.
@@ -79,7 +79,7 @@ var DataManager = Ember.Object.create({
       });
     }
     localStorage.setItem("cities", JSON.stringify(savedCities));
-    // localStorage.setItem("useUSUnits", JSON.stringify(self.useUSUnits));
+    localStorage.setItem("useUSUnits", JSON.stringify(self.useUSUnits));
   },
 
   dataDidChange: function() {
@@ -91,13 +91,13 @@ var DataManager = Ember.Object.create({
         cities = self.get('LocalStorageModels');
     for (var i = 0; i < cities.length; i++){
       var tmp = cities[i];
-      console.log(city);
-      console.log(tmp);
-      console.log(tmp.get('id'));
+      // console.log(city);
+      // console.log(tmp);
+      // console.log(tmp.get('id'));
       if (tmp.get('id') === city) {
       // if (tmp.get('lat') === city.get('lat') && tmp.get('lng') === city.get('lng')){
         cities.removeObject(tmp);
-        console.log(cities);
+        // console.log(cities);
         break;
       }
     }
@@ -171,10 +171,13 @@ var DataManager = Ember.Object.create({
     }
 
   }
-
-
 });
 
+DataManager.loadDataFromLocalStorage();
+
+DataManager.addObserver('useUSUnits', function(){
+  DataManager.syncLocalStorage();
+});
 
 var updateTimeTimer = function() {
   DataManager.refreshAllCitiesTime();
