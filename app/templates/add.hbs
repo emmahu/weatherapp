@@ -7,7 +7,7 @@
 </header>
 <ul class="listBody">
   {{#if cityList}}
-    {{#each cityList}}
+    {{#each city in cityList}}
       <li class="subList" {{action 'addCity' id}}><div>{{formatted_address}}</div></li>
     {{/each}}
   {{/if}}

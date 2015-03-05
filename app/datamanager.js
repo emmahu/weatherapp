@@ -62,9 +62,12 @@ var DataManager = Ember.Object.create({
 
   // Save back to local storage.
   syncLocalStorage: function() {
-    var self = this,
+    // var self = this,
+    var self = DataManager,
         cities = self.LocalStorageModels,
         savedCities = [];
+    // console.log('call sync');
+    // console.log(cities);
     for(var i = 0; i < cities.length; i++) {
       var city = cities[i];
       // savedCities.push(city.get('serializedProperties'));
@@ -90,13 +93,8 @@ var DataManager = Ember.Object.create({
         cities = self.get('LocalStorageModels');
     for (var i = 0; i < cities.length; i++){
       var tmp = cities[i];
-      // console.log(city);
-      // console.log(tmp);
-      // console.log(tmp.get('id'));
       if (tmp.get('id') === city) {
-      // if (tmp.get('lat') === city.get('lat') && tmp.get('lng') === city.get('lng')){
         cities.removeObject(tmp);
-        // console.log(cities);
         break;
       }
     }
@@ -112,9 +110,10 @@ var DataManager = Ember.Object.create({
       url: self.get('weatherAPIBaseURL') + self.get('weatherAPIKey') + '/' + city.get('lat') + ', ' + city.get('lng') + "?units=si",
       jsonp: 'callback',
       dataType: 'jsonp',
-      context: city
+      // context: city
     }).done(function(weatherData) {
-      this.set('weatherData', weatherData).set('lastUpdated', new Date().getTime());
+      city.set('weatherData', weatherData).set('lastUpdated', new Date().getTime());
+      // this.set('weatherData', weatherData).set('lastUpdated', new Date().getTime());
       self.dataDidChange();
     }).then(function(){
       return this;
@@ -142,8 +141,8 @@ var DataManager = Ember.Object.create({
         dots[i] = true;
         return {
           showPagination: (iLen > 1),
-          prevCityId: ((i == 0) ? null : cities[i-1].get('id')),
-          nextCityId: ((i == iLen - 1) ? null : cities[i+1].get('id')),
+          prevCityId: ((i === 0) ? null : cities[i-1].get('id')),
+          nextCityId: ((i === iLen - 1) ? null : cities[i+1].get('id')),
           dots: dots
         };
       }
@@ -154,15 +153,14 @@ var DataManager = Ember.Object.create({
   // Return for a given id, the city
   cityDataForId: function(id) {
     var cities = this.get('LocalStorageModels');
-    var city = null;
+    // var city = null;
     for(var i=0, iLen=cities.length; i<iLen; i++) {
       if(cities[i].get('id') === id) {
-        city = cities[i];
-        break;
+        return cities[i];
       }
     }
-    // console.log(city);
-    return city;
+    console.log('come here null');
+    return null;
   },
 
   refreshAllCitiesWeather: function() {
@@ -183,11 +181,75 @@ var DataManager = Ember.Object.create({
       var city = cities[i];
       // This will trigger recalculation of sinceLastRefresh computed property.
       city.notifyPropertyChange('lastUpdated');
-      // console.log(city.get('lastUpdated'));
+    }
+  },
+////////////////////////////////////////////////////////////////////////////////
+  // Current Location Handling
+  ////////////////////////////////////////////////////////////////////////////////
+
+  // If current location is updated, then add the current location to the
+  // cities array if needed at the top of the list.
+  currentLocationWasUpdated: function(position) {
+    var self = DataManager;
+    var city = self.cityDataForId(self.currentLocationKey),
+        shouldPush = false;
+
+    // If the current location does not exist in the cities array,
+    // create a new city.
+    if(!city) {
+      city = {};
+      shouldPush = true;
+      city.weatherData = null;
     }
 
+    // Either way, set the location information.
+    city.id   = self.currentLocationKey;
+    city.name = 'Current Location';
+    city.lat  = position.coords.latitude;
+    city.lng  = position.coords.longitude;
+    var newCity = City.create({
+      id: city.id,
+      name: city.name,
+      lat: city.lat,
+      lng: city.lng,
+      lastUpdated: -1,
+      weatherData: city.weatherData
+    });
+
+    // Only push onto the array if it does not exist already.
+    if (shouldPush) {
+      self.get('LocalStorageModels').unshift(newCity);
+      self.fetchDataForCity(newCity);
+      // self.get('LocalStorageModels').unshift(city);
+      // self.fetchDataForCity(city);
+
+    }
+
+    // self.syncLocalStorage();
+    // Weather.parseRoute();
+  },
+
+  // If current location is denied, then just remove it from the list.
+  currentLocationWasDenied: function() {
+    var self = DataManager;
+    var cities = self.get('LocalStorageModels'),
+        city   = self.cityDataForId(self.currentLocationKey);
+    if (city) {
+      console.log('call here');
+      cities.splice(cities.indexOf(city), 1);
+    }
+    // self.syncLocalStorage();
   }
+
 });
+
+ // current location
+ // console.log(DataManager.LocalStorageModels);
+if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(DataManager.currentLocationWasUpdated, DataManager.currentLocationWasDenied);
+  }
+
+// console.log(DataManager.LocalStorageModels);
 
 DataManager.loadDataFromLocalStorage();
 
