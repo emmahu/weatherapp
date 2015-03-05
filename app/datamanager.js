@@ -143,7 +143,6 @@ var DataManager = Ember.Object.create({
         dots[i] = true;
         return {
           showPagination: (iLen > 1),
-          currentIndex: i,
           prevCityId: ((i == 0) ? null : cities[i-1].get('id')),
           nextCityId: ((i == iLen - 1) ? null : cities[i+1].get('id')),
           dots: dots

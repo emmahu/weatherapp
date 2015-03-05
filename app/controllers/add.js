@@ -47,7 +47,7 @@ var addController = Ember.Controller.extend({
       var cityObject = cityList.findBy('id', cityId);
 
       var cur = City.create({
-        id: cityId,
+        id: cityObject.displayName.replace(/\s/g, '').toLowerCase(),
         name: cityObject.displayName,
         lat: cityObject.lat,
         lng: cityObject.lng,
