@@ -207,16 +207,40 @@
 </div>
 <nav {{bind-attr class=conditionClassname}}>
   <ul>
-    <div class="list-button">
-      {{#link-to 'index'}}☰{{/link-to}}
-    </div>
-  {{!-- {{log useUSUnits}} --}}
     <div {{bind-attr class=":celsius-or-fahrenheit useUSUnits:use-fahrenheit:use-celsius"}}>
       <a {{action 'toggleUnits'}}>
         <span class="celsius">˚C</span>
          ⁄
         <span class="fahrenheit">˚F</span>
       </a>
+    </div>
+    {{#if pagination.showPagination}}
+    <div class="next-prev-nav">
+      <div {{bind-attr class=":prev-button pagination.prevCityId::disabled"}}>
+        {{#if pagination.prevCityId}}
+          {{#link-to 'city' pagination.prevCityId}}◀{{/link-to}}
+        {{else}}
+          {{#link-to 'city' id}}◀{{/link-to}}
+        {{/if}}
+      </div>
+      <div class="indicator-dots">
+        {{#each dot in pagination.dots}}
+          <span {{bind-attr class=":dot dot:current"}}>
+            •
+          </span>
+        {{/each}}
+      </div>
+      <div {{bind-attr class=":next-button pagination.nextCityId::disabled"}}>
+        {{#if pagination.nextCityId}}
+          {{#link-to 'city' pagination.nextCityId}}▶{{/link-to}}
+        {{else}}
+          {{#link-to 'city' id}}▶{{/link-to}}
+        {{/if}}
+      </div>
+    </div>
+    {{/if}}
+    <div class="list-button">
+      {{#link-to 'index'}}☰{{/link-to}}
     </div>
   </ul>
 </nav>

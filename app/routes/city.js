@@ -12,7 +12,8 @@ var CityRoute = Ember.Route.extend({
     $('body').removeClass().addClass('show-selected-city');
     $('body').removeClass('is-cloudy').removeClass('is-night').removeClass('is-day').addClass(model.get('conditionClassname'));
     $('nav').removeClass('is-cloudy').removeClass('is-night').removeClass('is-day').addClass(model.get('conditionClassname'));
-    controller.set('content', model);
+    controller.set('content', model)
+              .set('pagination', DataManager.paginationInfo(model.get('id')));
   }
 });
 

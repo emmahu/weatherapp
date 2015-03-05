@@ -135,6 +135,24 @@ var DataManager = Ember.Object.create({
     }
   },
 
+  paginationInfo: function(id) {
+    var cities = this.get('LocalStorageModels');
+    var dots = new Array(cities.length);
+    for(var i=0, iLen=cities.length; i<iLen; i++) {
+      if(cities[i].get('id') === id) {
+        dots[i] = true;
+        return {
+          showPagination: (iLen > 1),
+          currentIndex: i,
+          prevCityId: ((i == 0) ? null : cities[i-1].get('id')),
+          nextCityId: ((i == iLen - 1) ? null : cities[i+1].get('id')),
+          dots: dots
+        };
+      }
+    }
+    return null;
+  },
+
   // Return for a given id, the city
   cityDataForId: function(id) {
     var cities = this.get('LocalStorageModels');

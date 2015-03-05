@@ -453,19 +453,25 @@ nav div.list-button {
 }
 /*try to add Edit button*/
 nav .edit-title {
-  display: inline;
+  /*display: inline-block;*/
   position: absolute;
-  right: 40px;
+  top:0px;
+  right: 50px;
   color: #aaa;
-  line-height: 41px;
-  font-size: 16px;
+  line-height: 38px;
+  font-size: 20px;
+  background: #555;
+  border: none;
+  padding: 0px;
 }
 .plus {
   display: inline;
   position: absolute;
   top: 5px;
   right: 10px;
-  border-radius: 60%;
+  border-radius: 50%;
   color: #aaa;
   font-size: 16px;
+  background: #555;
+  border: 1px solid #aaa;
 }

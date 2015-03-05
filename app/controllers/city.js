@@ -10,7 +10,6 @@ var CityController = Ember.ObjectController.extend({
     }
   },
 
-
   useUSUnits: Ember.computed.alias('dataManager.useUSUnits'),
 
   init: function(){

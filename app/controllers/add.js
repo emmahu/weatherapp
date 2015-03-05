@@ -1,6 +1,8 @@
 import Ember from 'ember';
+import City from 'weather/models/city';
+import DataManager from "weather/datamanager";
 
-var addController = Ember.ObjectController.extend({
+var addController = Ember.Controller.extend({
   cityList: null,
   letter: '',
   displayMsg: 'Please type to find a city.',
@@ -17,14 +19,15 @@ var addController = Ember.ObjectController.extend({
         //reset to null for a new input
         this.set('cityList', null);
         $.ajax({
-          url: 'http://coen268.peterbergstrom.com/timezones.php?search='+input,
+          // url: 'http://coen268.peterbergstrom.com/timezones.php?search='+input,
+          url: 'http://coen268.peterbergstrom.com/locationautocomplete.php?query='+input,
           dataType: 'jsonp',
           jsonp: "callback",
           success: function(data) {
             if (data == null || data.length == 0) {
               self.set('displayMsg', 'No results found, try another city.');
             } else {
-              self.createMap(data);
+              self.set('cityList',data);
             }
           }
         });
@@ -36,47 +39,32 @@ var addController = Ember.ObjectController.extend({
     }
   }.observes('typeCity'),
 
-  createMap: function(data) {
-    var len = data.length;
-    var map = new Object();
-    for (var i=0; i<len; i++) {
-      var firstLetter = data[i].cityName.charAt(0);
-      if (!map.hasOwnProperty(firstLetter)) {
-        map[firstLetter] = {
-          firstLetter: firstLetter,
-          dataList: [data[i]]
-        };
-      } else {
-        map[firstLetter].dataList.pushObject(data[i]);
-      }
-    }
-    var result = [];
-    for (var m in map) {
-      result.pushObject(map[m]);
-    }
-    this.set('cityList', result);
-  },
 
   actions: {
     addCity: function (cityId) {
       //create a new city model
       var cityList = this.get('cityList');
-      var cityArray = cityList.findBy('firstLetter', cityId.charAt(0).toUpperCase());
-      var cityObject = cityArray.dataList.findBy('id', cityId);
+      var cityObject = cityList.findBy('id', cityId);
 
-      var curr = this.store.createRecord('city', {
-        cityid: cityId,
-        cityName: cityObject.cityName,
-        timezoneName: cityObject.timezoneName,
-        timezoneOffset: cityObject.timezoneOffset
+      var cur = City.create({
+        id: cityId,
+        name: cityObject.displayName,
+        lat: cityObject.lat,
+        lng: cityObject.lng,
+        lastUpdated: -1,
+        weatherData: null
       });
-      curr.save();
+      // console.log(cur);
+      // DataManager.fetchDataForCity(cur);
+      var cities = DataManager.get('LocalStorageModels');
+      cities.push(cur);
+      DataManager.set('LocalStorageModels', cities);
       //reset to null
       this.set('cityList', null);
       this.set('typeCity', '');
-      this.transitionToRoute('worldclock');
+      this.transitionToRoute('index');
     },
-    worldclock: function() {
+    back: function() {
       //reset to null
       this.set('cityList', null);
       this.set('typeCity', '');
