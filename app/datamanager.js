@@ -54,10 +54,10 @@ var DataManager = Ember.Object.create({
       }
       self.set('LocalStorageModels', cities);
     }
-    self.useUSUnits = JSON.parse(localStorage.getItem("useUSUnits"));
-    if(self.useUSUnits === null || self.useUSUnits === undefined) {
-      self.useUSUnits = true;
-    }
+    // self.useUSUnits = JSON.parse(localStorage.getItem("useUSUnits"));
+    // if(self.useUSUnits === null || self.useUSUnits === undefined) {
+    //   self.useUSUnits = true;
+    // }
   },
 
   // Save back to local storage.
@@ -70,16 +70,26 @@ var DataManager = Ember.Object.create({
       savedCities.push(city.get('serializedProperties'));
     }
     localStorage.setItem("cities", JSON.stringify(savedCities));
-    localStorage.setItem("useUSUnits", JSON.stringify(self.useUSUnits));
+    // localStorage.setItem("useUSUnits", JSON.stringify(self.useUSUnits));
   },
 
-  // dataDidChange: function() {
-  //   this.syncLocalStorage();
-  // }
+  dataDidChange: function() {
+    this.syncLocalStorage();
+  },
 
-  // deleteCity: function(city) {
-
-  // }
+  deleteCity: function(city) {
+    var self = this,
+        cities = self.get('LocalStorageModels');
+    for (int i = 0; i < cities.length; i++){
+      var tmp = cities[i];
+      if (tmp.get('lat') === city.get('lat') && tmp.get('lng') == city.get('lng')){
+        cities.removeObjects(tmp);
+        break;
+      }
+    }
+    self.set('LocalStorageModels', cities);
+    self.dataDidChange();
+  },
 
 
   // API interaction
@@ -92,7 +102,7 @@ var DataManager = Ember.Object.create({
       context: city
     }).done(function(weatherData) {
       this.set('weatherData', weatherData).set('lastUpdated', new Date().getTime());
-      // self.dataDidChange();
+      self.dataDidChange();
     }).then(function(){
       return this;
     });
