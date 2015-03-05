@@ -197,32 +197,25 @@ var DataManager = Ember.Object.create({
     // If the current location does not exist in the cities array,
     // create a new city.
     if(!city) {
-      city = {};
+      city = City.create({
+        id: self.currentLocationKey,
+        name: 'Current Location',
+        lastUpdated: -1,
+        weatherData: null
+      });
       shouldPush = true;
-      city.weatherData = null;
     }
 
     // Either way, set the location information.
-    city.id   = self.currentLocationKey;
-    city.name = 'Current Location';
-    city.lat  = position.coords.latitude;
-    city.lng  = position.coords.longitude;
-    var newCity = City.create({
-      id: city.id,
-      name: city.name,
-      lat: city.lat,
-      lng: city.lng,
-      lastUpdated: -1,
-      weatherData: city.weatherData
-    });
+    city.set('lat', position.coords.latitude);
+    city.set('lng', position.coords.longitude);
 
     // Only push onto the array if it does not exist already.
     if (shouldPush) {
-      self.get('LocalStorageModels').unshift(newCity);
-      self.fetchDataForCity(newCity);
+      self.get('LocalStorageModels').unshift(city);
+      self.fetchDataForCity(city);
       // self.get('LocalStorageModels').unshift(city);
       // self.fetchDataForCity(city);
-
     }
 
     // self.syncLocalStorage();
