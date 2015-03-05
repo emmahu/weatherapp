@@ -55,7 +55,7 @@ var addController = Ember.Controller.extend({
         weatherData: null
       });
       // console.log(cur);
-      // DataManager.fetchDataForCity(cur);
+      DataManager.fetchDataForCity(cur);
       var cities = DataManager.get('LocalStorageModels');
       cities.push(cur);
       DataManager.set('LocalStorageModels', cities);

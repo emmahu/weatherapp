@@ -9,7 +9,7 @@ var IndexRoute = Ember.Route.extend({
     var promises = [];
     for (var i = 0 ; i < cities.length; ++i) {
       promises.push(DataManager.findCity(cities[i].get('id')));
-      console.log(cities[i].get('id'));
+      // console.log(cities[i].get('id'));
     }
     return Ember.$.when.apply(Ember.$, promises).then(function(){
       return cities;
@@ -17,7 +17,6 @@ var IndexRoute = Ember.Route.extend({
   },
 
   setupController: function(controller, model){
-    // alert("good");
     $('body').removeClass().addClass('show-cities-list');
     controller.set('model', model);
   }
