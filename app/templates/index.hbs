@@ -6,16 +6,20 @@
         {{#link-to 'city' id}}
         <ul>
           <li class="city-info">
-            <div class="time">
+            <div {{action 'delete' id}} {{bind-attr class="controller.isEditing:circle:noncircle"}}>
+             <div id="dash"></div>
+            </div>
+            {{!-- <div class="time"> --}}
+            <div {{bind-attr class="controller.isEditing:time-edit:time"}}>
               {{format-time (local-date weatherData.currently.time offset=weatherData.offset since=sinceLastRefresh) showMinutes=true}}
             </div>
-            <div class="city-name">
+            {{!-- <div class="city-name"> --}}
+            <div {{bind-attr class="controller.isEditing:city-name-edit:city-name"}}>
               {{name}}
             </div>
           </li>
           <li class="temperature">
             {{format-temperature hourly.temperature unitParam=usUnitAlias}}
-            {{!-- {{log usUnitAlias}} --}}
           </li>
         </ul>
        {{/link-to}}
@@ -26,6 +30,13 @@
 </div>
 <nav>
   <ul>
+    <button class="edit-title"{{action 'editCity'}}>
+      {{#if isEditing}}
+        <strong>Done</strong>
+      {{else}}
+      Edit
+      {{/if}}
+    </button>
     <a class="attribution" href="http://forecast.io/" target="_blank">Powered by Forecast</a>
     <div {{bind-attr class=":celsius-or-fahrenheit controller.useUSUnits:use-fahrenheit:use-celsius"}}>
       <a {{action 'toggleUnits'}}>
@@ -35,5 +46,6 @@
         {{!-- <span> {{format-temperature temperature unitParam=controller.useUSUnits}}</span> --}}
       </a>
     </div>
+    <button class="plus"{{action 'addcity'}}>+</button>
   </ul>
 </nav>

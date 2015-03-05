@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-var addController = Ember.Controller.extend({
+var addController = Ember.ObjectController.extend({
   cityList: null,
   letter: '',
   displayMsg: 'Please type to find a city.',
@@ -80,7 +80,7 @@ var addController = Ember.Controller.extend({
       //reset to null
       this.set('cityList', null);
       this.set('typeCity', '');
-      this.transitionTo('worldclock');
+      this.transitionTo('index');
     }
   }
 });

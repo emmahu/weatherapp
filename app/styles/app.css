@@ -203,6 +203,46 @@ body.show-cities-list #cities-list ul li ul li img {
   width: 50px;
   padding-left: 5px;
 }
+/*try to add delete button*/
+.time-edit {
+  position: relative;
+  margin-top: 19px;
+  left:45px;
+  font-size: 15px;
+  transition:.6s;
+}
+.city-name-edit {
+  position: relative;
+  margin-top: 11px;
+  font-size: 30px;
+  left: 45px;
+  transition:.6s;
+}
+.noncircle{
+  display: none;
+}
+
+.circle {
+  border-radius: 50%;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background: red;
+  position: relative;
+  left: 10px;
+  top:34px;
+}
+#dash {
+  border-bottom: 2px solid ;
+  border-top: 2px solid ;
+  border-left: 14px solid ;
+  top: 8px;
+  left: 3px;
+  color: white;
+  position: absolute;
+}
+/**/
+
 body.show-cities-list #cities-list ul li ul li.city-info {
   left: 0px;
   right: 100px;
@@ -320,6 +360,7 @@ nav {
   left: 0px;
   bottom: 0px;
   right: 0px;
+  /*text-align: center;*/
 }
 nav.is-night {
   background: #262c43;
@@ -335,7 +376,10 @@ nav.is-day.is-cloudy {
 }
 nav a.attribution {
   position: absolute;
-  right: 10px;
+  /*right: 10px;*/
+  width: 130px;
+  right: 50%;
+  margin-right: -64px;
   color: #aaa;
   font-size: 14px;
   line-height: 41px;
@@ -406,4 +450,22 @@ nav div.next-prev-nav .next-button {
 nav div.list-button {
   right: 0px;
   width: 30px;
+}
+/*try to add Edit button*/
+nav .edit-title {
+  display: inline;
+  position: absolute;
+  right: 40px;
+  color: #aaa;
+  line-height: 41px;
+  font-size: 16px;
+}
+.plus {
+  display: inline;
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  border-radius: 60%;
+  color: #aaa;
+  font-size: 16px;
 }

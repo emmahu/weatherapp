@@ -153,16 +153,16 @@ var City = Ember.Object.extend({
     return new Date().getTime() - this.get('lastUpdated');
   }.property('lastUpdated'),
 
-  serializedProperties: function() {
-    return {
-      id: this.get('id'),
-      name: this.get('name'),
-      lat: this.get('lat'),
-      lng: this.get('lng'),
-      lastUpdated: this.get('lastUpdated'),
-      weatherData: this.get('weatherData')
-    };
-  }.property()
+  // serializedProperties: function() {
+  //   return {
+  //     id: this.get('id'),
+  //     name: this.get('name'),
+  //     lat: this.get('lat'),
+  //     lng: this.get('lng'),
+  //     lastUpdated: this.get('lastUpdated'),
+  //     weatherData: this.get('weatherData')
+  //   };
+  // }.property()
 
 });
 

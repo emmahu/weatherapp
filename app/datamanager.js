@@ -49,8 +49,9 @@ var DataManager = Ember.Object.create({
     var localStorageCities = JSON.parse(localStorage.getItem("cities"));
     if(localStorageCities) {
       var cities = [];
-      for(int i = 0; i < localStorageCities.length; i++) {
+      for(var i = 0; i < localStorageCities.length; i++) {
         cities.push(City.create(localStorageCities[i]));
+        console.log(cities);
       }
       self.set('LocalStorageModels', cities);
     }
@@ -65,9 +66,17 @@ var DataManager = Ember.Object.create({
     var self = this,
         cities = self.LocalStorageModels,
         savedCities = [];
-    for(int i = 0; i < cities.length; i++) {
-      var city = cities[0];
-      savedCities.push(city.get('serializedProperties'));
+    for(var i = 0; i < cities.length; i++) {
+      var city = cities[i];
+      // savedCities.push(city.get('serializedProperties'));
+      savedCities.push({
+        id: city.get('id'),
+        name: city.get('name'),
+        lat: city.get('lat'),
+        lng: city.get('lng'),
+        lastUpdated: city.get('lastUpdated'),
+        weatherData: city.get('weatherData')
+      });
     }
     localStorage.setItem("cities", JSON.stringify(savedCities));
     // localStorage.setItem("useUSUnits", JSON.stringify(self.useUSUnits));
@@ -80,10 +89,15 @@ var DataManager = Ember.Object.create({
   deleteCity: function(city) {
     var self = this,
         cities = self.get('LocalStorageModels');
-    for (int i = 0; i < cities.length; i++){
+    for (var i = 0; i < cities.length; i++){
       var tmp = cities[i];
-      if (tmp.get('lat') === city.get('lat') && tmp.get('lng') == city.get('lng')){
-        cities.removeObjects(tmp);
+      console.log(city);
+      console.log(tmp);
+      console.log(tmp.get('id'));
+      if (tmp.get('id') === city) {
+      // if (tmp.get('lat') === city.get('lat') && tmp.get('lng') === city.get('lng')){
+        cities.removeObject(tmp);
+        console.log(cities);
         break;
       }
     }

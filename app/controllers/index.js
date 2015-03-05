@@ -16,6 +16,10 @@ var IndexController = Ember.ArrayController.extend({
     startEditing: function() {
       this.set('isEditing', false);
     },
+    editCity: function() {
+      var curr = this.get('isEditing');
+      this.set('isEditing', !curr);
+    },
     delete: function(city) {
       this.get('dataManager').deleteCity(city);
     },
