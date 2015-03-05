@@ -503,7 +503,7 @@ nav .edit-title {
 }
 li.subList {
   margin-left: 13px;
-  height:30px;
+  /*height:30px;*/
   line-height: 30px;
 }
 #cancel{
