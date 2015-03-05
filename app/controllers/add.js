@@ -5,12 +5,12 @@ import DataManager from "weather/datamanager";
 var addController = Ember.Controller.extend({
   cityList: null,
   letter: '',
-  displayMsg: 'Please type to find a city.',
+  // displayMsg: 'Please type to find a city.',
   displayList: function() {
     var input = this.get('typeCity');
     if (input.length > 0) {
       if (input.length == 1) {
-        this.set('displayMsg', 'Keep typing...');
+        // this.set('displayMsg', 'Keep typing...');
         this.set('letter', '');
         this.set('cityList', null);
       } else {
@@ -25,7 +25,7 @@ var addController = Ember.Controller.extend({
           jsonp: "callback",
           success: function(data) {
             if (data == null || data.length == 0) {
-              self.set('displayMsg', 'No results found, try another city.');
+              // self.set('displayMsg', 'No results found, try another city.');
             } else {
               self.set('cityList',data);
             }
@@ -35,7 +35,7 @@ var addController = Ember.Controller.extend({
     } else {
       this.set('letter', '');
       this.set('cityList', null);
-      this.set('displayMsg', 'Please type to find a city.');
+      // this.set('displayMsg', 'Please type to find a city.');
     }
   }.observes('typeCity'),
 

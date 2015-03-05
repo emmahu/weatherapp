@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import ENV from "weather/config/environment";
 
 var City = Ember.Object.extend({
   id: 'sanjose',
@@ -25,7 +24,9 @@ var City = Ember.Object.extend({
 
 
   hourly: function(){
+    console.log(this.get('weatherData').hourly);
     return this.get('weatherData').hourly.data[0];
+
   }.property('weatherData'),
 
   daily: function(){

@@ -1,16 +1,15 @@
 <header id="cityList">
   <div id="listTile">
-  Choose a City.
+  Enter city, zip code, or airport location.
   </div>
   {{input id="listInput" type="text" value=typeCity}}
   <button id="cancel" {{action 'back'}}>Cancel</button>
 </header>
-<div class="listBody">
-   {{#if cityList}}
-     {{#each cityList}}
-      <li class="subList" {{action 'addCity' id}}><div>{{displayName}}</div></li>
-      {{/each}}
-   {{else}}
-    <p>{{displayMsg}}</p>
-    {{/if}}
-</div>
+<ul class="listBody">
+  {{#if cityList}}
+    {{#each cityList}}
+      {{log formatted_address}}
+      <li class="subList" {{action 'addCity' id}}><div>{{formatted_address}}</div></li>
+    {{/each}}
+  {{/if}}
+</ul>

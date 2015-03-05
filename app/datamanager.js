@@ -51,7 +51,6 @@ var DataManager = Ember.Object.create({
       var cities = [];
       for(var i = 0; i < localStorageCities.length; i++) {
         cities.push(City.create(localStorageCities[i]));
-        console.log(cities);
       }
       self.set('LocalStorageModels', cities);
     }
