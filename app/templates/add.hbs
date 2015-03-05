@@ -8,7 +8,6 @@
 <ul class="listBody">
   {{#if cityList}}
     {{#each cityList}}
-      {{log formatted_address}}
       <li class="subList" {{action 'addCity' id}}><div>{{formatted_address}}</div></li>
     {{/each}}
   {{/if}}

@@ -4,6 +4,7 @@
     {{#each model}}
       <li {{bind-attr class=conditionClassname}}>
         {{#link-to 'city' id disabled=controller.isEditing}}
+        {{log id}}
         <ul>
           <li class="city-info">
             <div {{action 'delete' id}} {{bind-attr class="controller.isEditing:circle:noncircle"}}>
