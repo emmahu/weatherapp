@@ -219,7 +219,6 @@
       <div {{bind-attr class=":prev-button pagination.prevCityId::disabled"}}>
         {{#if pagination.prevCityId}}
           {{#link-to 'city' pagination.prevCityId}}◀{{/link-to}}
-          {{log pagination.prevCityId}}
         {{else}}
           {{#link-to 'city' id}}◀{{/link-to}}
         {{/if}}

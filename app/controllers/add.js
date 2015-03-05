@@ -5,12 +5,10 @@ import DataManager from "weather/datamanager";
 var addController = Ember.Controller.extend({
   cityList: null,
   letter: '',
-  // displayMsg: 'Please type to find a city.',
   displayList: function() {
     var input = this.get('typeCity');
     if (input.length > 0) {
       if (input.length == 1) {
-        // this.set('displayMsg', 'Keep typing...');
         this.set('letter', '');
         this.set('cityList', null);
       } else {
@@ -19,13 +17,11 @@ var addController = Ember.Controller.extend({
         //reset to null for a new input
         this.set('cityList', null);
         $.ajax({
-          // url: 'http://coen268.peterbergstrom.com/timezones.php?search='+input,
           url: 'http://coen268.peterbergstrom.com/locationautocomplete.php?query='+input,
           dataType: 'jsonp',
           jsonp: "callback",
           success: function(data) {
             if (data == null || data.length == 0) {
-              // self.set('displayMsg', 'No results found, try another city.');
             } else {
               self.set('cityList',data);
             }
@@ -35,7 +31,6 @@ var addController = Ember.Controller.extend({
     } else {
       this.set('letter', '');
       this.set('cityList', null);
-      // this.set('displayMsg', 'Please type to find a city.');
     }
   }.observes('typeCity'),
 
@@ -48,7 +43,6 @@ var addController = Ember.Controller.extend({
       console.log(cityId);
 
       var cur = City.create({
-        // id: cityObject.displayName.replace(/\s/g, '').toLowerCase(),
         id: cityId,
         name: cityObject.displayName,
         lat: cityObject.lat,
@@ -56,7 +50,6 @@ var addController = Ember.Controller.extend({
         lastUpdated: -1,
         weatherData: null
       });
-      // console.log(cur);
       DataManager.fetchDataForCity(cur);
       var cities = DataManager.get('LocalStorageModels');
       cities.push(cur);

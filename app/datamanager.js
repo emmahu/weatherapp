@@ -62,15 +62,11 @@ var DataManager = Ember.Object.create({
 
   // Save back to local storage.
   syncLocalStorage: function() {
-    // var self = this,
     var self = DataManager,
         cities = self.LocalStorageModels,
         savedCities = [];
-    // console.log('call sync');
-    // console.log(cities);
     for(var i = 0; i < cities.length; i++) {
       var city = cities[i];
-      // savedCities.push(city.get('serializedProperties'));
       savedCities.push({
         id: city.get('id'),
         name: city.get('name'),
@@ -113,7 +109,6 @@ var DataManager = Ember.Object.create({
       // context: city
     }).done(function(weatherData) {
       city.set('weatherData', weatherData).set('lastUpdated', new Date().getTime());
-      // this.set('weatherData', weatherData).set('lastUpdated', new Date().getTime());
       self.dataDidChange();
     }).then(function(){
       return this;
@@ -159,7 +154,6 @@ var DataManager = Ember.Object.create({
         return cities[i];
       }
     }
-    console.log('come here null');
     return null;
   },
 
@@ -214,12 +208,7 @@ var DataManager = Ember.Object.create({
     if (shouldPush) {
       self.get('LocalStorageModels').unshift(city);
       self.fetchDataForCity(city);
-      // self.get('LocalStorageModels').unshift(city);
-      // self.fetchDataForCity(city);
     }
-
-    // self.syncLocalStorage();
-    // Weather.parseRoute();
   },
 
   // If current location is denied, then just remove it from the list.
@@ -236,13 +225,10 @@ var DataManager = Ember.Object.create({
 
 });
 
- // current location
- // console.log(DataManager.LocalStorageModels);
+
 if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(DataManager.currentLocationWasUpdated, DataManager.currentLocationWasDenied);
-  }
-
-// console.log(DataManager.LocalStorageModels);
+}
 
 DataManager.loadDataFromLocalStorage();
 

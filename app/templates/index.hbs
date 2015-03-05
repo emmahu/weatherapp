@@ -4,17 +4,32 @@
     {{#each model}}
       <li {{bind-attr class=conditionClassname}}>
         {{#link-to 'city' id disabled=controller.isEditing}}
-        {{log id}}
+        {{#if isCurLocation}}
+        <ul>
+          <li class="city-info">
+          <div {{action 'delete' id}} class="noncircle">
+             <div id="dash"></div>
+            </div>
+            <div class="time">
+              {{format-time (local-date weatherData.currently.time offset=weatherData.offset since=sinceLastRefresh) showMinutes=true}}
+            </div>
+            <div class="city-name">
+              {{name}}
+            </div>
+          </li>
+          <li class="temperature">
+            {{format-temperature hourly.temperature unitParam=usUnitAlias}}
+          </li>
+        </ul>
+        {{else}}
         <ul>
           <li class="city-info">
             <div {{action 'delete' id}} {{bind-attr class="controller.isEditing:circle:noncircle"}}>
              <div id="dash"></div>
             </div>
-            {{!-- <div class="time"> --}}
             <div {{bind-attr class="controller.isEditing:time-edit:time"}}>
               {{format-time (local-date weatherData.currently.time offset=weatherData.offset since=sinceLastRefresh) showMinutes=true}}
             </div>
-            {{!-- <div class="city-name"> --}}
             <div {{bind-attr class="controller.isEditing:city-name-edit:city-name"}}>
               {{name}}
             </div>
@@ -23,6 +38,7 @@
             {{format-temperature hourly.temperature unitParam=usUnitAlias}}
           </li>
         </ul>
+        {{/if}}
        {{/link-to}}
       </li>
     {{/each}}

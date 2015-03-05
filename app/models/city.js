@@ -24,15 +24,11 @@ var City = Ember.Object.extend({
 
 
   hourly: function(){
-    // console.log(this.get('weatherData').hourly);
     return this.get('weatherData.hourly.data.0');
-    // return this.get('weatherData').hourly.data[0];
-
   }.property('weatherData'),
 
   daily: function(){
     return this.get('weatherData.daily.data.0');
-    // return this.get('weatherData').daily.data[0];
   }.property('weatherData'),
 
   conditionClassname: function() {
@@ -76,13 +72,11 @@ var City = Ember.Object.extend({
   }.property('localDate'),
 
   hourlyListWidth: function() {
-    // return 'width: ' + (Math.min(this.get('weatherData').hourly.data.length, 24) * 64) + 'px;';
     return 'width: ' + (Math.min(this.get('weatherData.hourly.data').length, 24) * 64) + 'px;';
   }.property('weatherData'),
 
   hourlyData: function() {
     var data = this.get('weatherData.hourly.data');
-    // var data = this.get('weatherData').hourly.data;
     var newData = [];
     for (var i = 0; i < Math.min(data.length, 24); ++i) {
       var d = data[i];
@@ -98,7 +92,6 @@ var City = Ember.Object.extend({
 
   dailyData: function() {
     var data = this.get('weatherData.daily.data');
-    // var data = this.get('weatherData').daily.data;
     var newData = [];
     for (var i = 0; i < Math.min(data.length, 24); ++i) {
       var d = data[i];
@@ -114,7 +107,6 @@ var City = Ember.Object.extend({
 
   precipType: function(){
     return this.get('hourly.precipType') === 'snow' ? 'Chance of Snow:' : 'Chance of Rain:';
-    // return this.get('hourly').precipType === 'snow' ? 'Chance of Snow:' : 'Chance of Rain:';
   }.property('hourly'),
 
   formatBearing: function() {
@@ -136,16 +128,9 @@ var City = Ember.Object.extend({
     return new Date().getTime() - this.get('lastUpdated');
   }.property('lastUpdated'),
 
-  // serializedProperties: function() {
-  //   return {
-  //     id: this.get('id'),
-  //     name: this.get('name'),
-  //     lat: this.get('lat'),
-  //     lng: this.get('lng'),
-  //     lastUpdated: this.get('lastUpdated'),
-  //     weatherData: this.get('weatherData')
-  //   };
-  // }.property()
+  isCurLocation: function() {
+    return (this.get('id') === 'currentlocation');
+  }.property('id')
 
 });
 
