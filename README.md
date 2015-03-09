@@ -1,7 +1,18 @@
 # Weather
 
-This README outlines the details of collaborating on this Ember application.
-A short introduction of this app could easily go here.
+This is one of my projects in mobile web programming course. This webapp is based on
+Ember.js. Feature list:
+
+* Brief & detailed weather forecasts for cities (based on forecast.io API)
+* Forecasts are automatically refreshed
+* Timezone (and daylight saving time) cognitive
+* Four different color schemes based on day/night and sunny/cloudy
+* US/SI unit switch, i.e. ˚F/˚C, mi/km, etc.
+* Weather forecast for current location (based on location API)
+* Add city to the city list (based on location autocompletion API)
+* Delete city
+
+This project is for learning and fun. DO NOT use it for any commercial purpose.
 
 ## Prerequisites
 
@@ -41,7 +52,10 @@ Make use of the many generators for code, try `ember help generate` for more det
 
 ### Deploying
 
-Specify what it takes to deploy your app.
+[gulp-gh-pages](https://www.npmjs.com/package/gulp-gh-pages) is used to deploy this repo via github's page service. To deploy, run:
+
+* `ember build`
+* `gulp deploy`
 
 ## Further Reading / Useful Links
 
