@@ -14,6 +14,14 @@ Ember.js. Feature list:
 
 This project is for learning and fun. DO NOT use it for any commercial purpose.
 
+## Screenshots
+
+![City List](https://raw.githubusercontent.com/emmahu/weatherapp/master/screenshots/city-list.png "City List")
+
+![City Detail](https://raw.githubusercontent.com/emmahu/weatherapp/master/screenshots/city-detail.png "City Detail")
+
+![Add City](https://raw.githubusercontent.com/emmahu/weatherapp/master/screenshots/add-city.png "Add City")
+
 ## Prerequisites
 
 You will need the following things properly installed on your computer.
@@ -52,7 +60,7 @@ Make use of the many generators for code, try `ember help generate` for more det
 
 ### Deploying
 
-[gulp-gh-pages](https://www.npmjs.com/package/gulp-gh-pages) is used to deploy this repo via github's page service. To deploy, run:
+[grunt-build-control](https://github.com/robwierzbowski/grunt-build-control) is used to deploy this repo via github's page service. To deploy, run:
 
 * `npm install -g grunt-cli`
 * `ember build -prod`
