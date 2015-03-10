@@ -13,7 +13,7 @@ module.exports = function(grunt) {
       },
       pages: {
         options: {
-          remote: 'git@github.com:emmahu/weatherapp.git',
+          remote: 'git@github-emmahu:emmahu/weatherapp.git',
           branch: 'gh-pages'
         }
       }
