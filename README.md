@@ -54,8 +54,9 @@ Make use of the many generators for code, try `ember help generate` for more det
 
 [gulp-gh-pages](https://www.npmjs.com/package/gulp-gh-pages) is used to deploy this repo via github's page service. To deploy, run:
 
+* `npm install -g grunt-cli`
 * `ember build`
-* `gulp deploy`
+* `grunt buildcontrol:pages`
 
 ## Further Reading / Useful Links
 
